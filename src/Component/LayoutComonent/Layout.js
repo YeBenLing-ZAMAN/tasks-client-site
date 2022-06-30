@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import AddBillOnModal from './AddBillOnModal';
 import BillsRow from './BillsRow';
 
 const Layout = () => {
 
-    const [billingList, setBillingList] = useState([]); 
+    const [billingList, setBillingList] = useState([]);
+    const [forModalPopUp, setForModalPopUp] = useState(null);
 
     useEffect(() => {
         fetch('fakedata.json')
             .then(res => res.json())
             .then(data => setBillingList(data));
-    },[]);
+    }, []);
 
     // console.log(billingList);
     return (
@@ -40,14 +42,21 @@ const Layout = () => {
                         </div>
                     </div>
                     <div className="flex-none gap-2">
-
-                        <button className="btn btn-primary">Add New Bill</button>
+                        <label for="my-modal-6" onClick={()=>setForModalPopUp(true)} class="btn btn-primary modal-button">Add New Bill</label>
                     </div>
                 </div>
             </div>
 
+            {/* add new bill button click and getting a modal */}
+            {
+                forModalPopUp && <AddBillOnModal
+                setForModalPopUp={setForModalPopUp}
+                forModalPopUp={forModalPopUp}
+                ></AddBillOnModal>
+            }
 
-            {/* all bill information stored  */}
+
+            {/* all bill information stored and showing on list */}
 
             <div className="overflow-x-auto max-w-7xl mx-auto mt-10">
                 <table className="table w-full">
