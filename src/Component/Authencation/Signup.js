@@ -1,13 +1,38 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from "react-hook-form";
 import { Link } from 'react-router-dom';
+import useToken from './useToken';
 
 const Signup = () => {
-    const { register, formState: { errors }, handleSubmit, watch } = useForm();
+    const [user, setUser] = useState(null);
+    const { register, formState: { errors }, handleSubmit, watch, reset } = useForm();
 
     const onSubmit = async data => {
         console.log(data);
+        fetch(`http://localhost:5000/registration`, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json',
+                // authorization: `Bearer ${localStorage.getItem('accesstoken')}`
+            },
+            body: JSON.stringify(data)
+        })
+            .then(res => res.json())
+            .then(inserted => {
+                console.log(inserted);
+                if (inserted.insertedId) {
+                    console.log(`user added successfully`);
+                    setUser(data);
+                    reset();
+                } else {
+                    console.log('something wrong user is not added !')
+                }
+                console.log("reuslt line 31 : ", inserted)
+            })
+
     }
+    
+    const [token] = useToken(user);
 
 
     return (
