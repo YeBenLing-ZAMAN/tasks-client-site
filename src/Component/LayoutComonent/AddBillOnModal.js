@@ -1,16 +1,160 @@
 import React from 'react';
+import { useForm, Controller } from "react-hook-form";
+import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
+import "react-phone-number-input/style.css";
 
-const AddBillOnModal = ({setForModalPopUp,forModalPopUp}) => {
+const AddBillOnModal = ({ setForModalPopUp, forModalPopUp }) => {
+
+    const { register, formState: { errors }, handleSubmit, control } = useForm();
+
+    const onSubmit = async data => {
+        console.log(data);
+    }
+
     return (
         <div>
-            <input type="checkbox" id="my-modal-6" class="modal-toggle" />
-            <div class="modal modal-bottom sm:modal-middle">
-                <div class="modal-box">
-                    <h3 class="font-bold text-lg">Congratulations random Internet user! {forModalPopUp}</h3>
-                    <p class="py-4">You've been selected for a chance to get one year of subscription to use Wikipedia for free!</p>
-                    <div class="modal-action">
-                        <label for="my-modal-6" class="btn">close!</label>
+            <input type="checkbox" id="my-modal-6" className="modal-toggle" />
+            <div className="modal modal-bottom sm:modal-middle">
+                <div className="modal-box">
+                    {/* modal head Line */}
+                    <div className='flex justify-between items-center'>
+                        <h3 className="font-bold text-xl text-primary text-center capitalize">Add Billing information! {forModalPopUp}</h3>
+                        {/* modal close section */}
+                        <div className="modal-action mt-[-3px]">
+                            <label htmlFor="my-modal-6" className="btn btn-primary btn-circle btn-outline text-bold">X</label>
+                        </div>
                     </div>
+
+
+                    {/*Billing infomation form section*/}
+
+                    <div className="card w-96 bg-base-100 p-5 mx-auto">
+                        <div className="card-body">
+
+                            <form onSubmit={handleSubmit(onSubmit)}>
+
+
+                                {/* full name enter */}
+                                <div className="form-control w-full max-w-xs">
+                                    <label className="label">
+                                        <span className="label-text">Full Name</span>
+                                    </label>
+
+                                    <input
+                                        type="name"
+                                        placeholder="Enter Your Name"
+                                        className="input input-bordered w-full max-w-xs"
+                                        {...register("name", {
+                                            required: {
+                                                value: true,
+                                                message: 'Name is Required'
+                                            }
+                                        })}
+                                    />
+
+                                    <label className="label">
+                                        {errors.name?.type === 'required' && <span
+                                            className="label-text-alt text-red-500">
+                                            {errors.name.message}
+                                        </span>}
+                                    </label>
+                                </div>
+
+                                {/* Email input and vaildation */}
+                                <div className="form-control w-full max-w-xs">
+                                    <label className="label">
+                                        <span className="label-text">Email</span>
+                                    </label>
+
+                                    <input
+                                        type="email"
+                                        placeholder="Enter Your Email"
+                                        className="input input-bordered w-full max-w-xs"
+                                        {...register("email", {
+                                            required: {
+                                                value: true,
+                                                message: 'Email is Required'
+                                            },
+                                            pattern: {
+                                                value: /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+                                                message: 'Enter Vaild Email Address'
+                                            }
+                                        })}
+                                    />
+
+                                    <label className="label">
+                                        {errors.email?.type === 'required' && <span
+                                            className="label-text-alt text-red-500">
+                                            {errors.email.message}
+                                        </span>}
+                                        {errors.email?.type === 'pattern' && <span
+                                            className="label-text-alt text-red-500">
+                                            {errors.email.message}
+                                        </span>}
+
+                                    </label>
+                                </div>
+
+                                {/* phone number vaildation */}
+                                <div className='form-control w-full max-w-xs'>
+                                    <label htmlFor="phone-input">Phone Number</label>
+                                    <Controller
+                                        name="phone-input"
+                                        control={control}
+                                        rules={{
+                                            validate: (value) => isValidPhoneNumber(value)
+                                        }}
+                                        render={({ field: { onChange, value } }) => (
+                                            <PhoneInput
+                                                value={value}
+                                                className="input input-bordered w-full max-w-xs"
+                                                onChange={onChange}
+                                                defaultCountry="TH"
+                                                id="phone-input"
+                                            />
+                                        )}
+                                    />
+                                    {errors["phone-input"] && (
+                                        <p className="error-message label-text-alt text-red-500">Invalid Phone</p>
+                                    )}
+                                </div>
+
+                                {/* paid amount vaildation */}
+                                <div className="form-control w-full max-w-xs mt-2">
+                                    <label className="label">
+                                        <span className="label-text">Paid amount</span>
+                                    </label>
+
+                                    <input
+                                        type="number"
+                                        placeholder="Enter Amount"
+                                        className="input input-bordered w-full max-w-xs"
+                                        {...register("amount", {
+                                            required: {
+                                                value: true,
+                                                message: 'Paid Amount is Required'
+                                            },
+                                        })}
+                                    />
+
+
+                                    <label className="label">
+                                        {errors.amount?.type === 'required' && <span
+                                            className="label-text-alt text-red-500">
+                                            {errors.amount.message}
+                                        </span>}
+
+                                    </label>
+                                </div>
+
+                                <input className='btn w-full max-w-xs text-white mt-10' type="submit" value="add" />
+                            </form>
+                        </div>
+
+
+                    </div>
+
+
                 </div>
             </div>
         </div>
@@ -18,3 +162,29 @@ const AddBillOnModal = ({setForModalPopUp,forModalPopUp}) => {
 };
 
 export default AddBillOnModal;
+
+
+/* 
+
+<div>
+            <input type="checkbox" id="my-modal-6" className="modal-toggle" />
+            <div className="modal modal-bottom  sm:modal-middle">
+                <div className="modal-area relative about-container border-2 border-red-400 card hero bg-slate-200" >
+                    // modal content
+                    
+                    <div className='main-container-div'>
+
+                    
+                    </div>
+                    
+                    
+                    // modal closed button
+                    
+                    
+                    <div className="modal-action">
+                    <label for="my-modal-6" className="btn">close!</label>
+                    </div>
+                    </div>
+                    </div>
+                    </div>
+*/

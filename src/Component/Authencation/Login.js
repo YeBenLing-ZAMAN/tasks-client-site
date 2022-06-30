@@ -16,7 +16,7 @@ const Login = () => {
 
 
     return (
-        <div class="h-screen">
+        <div className="h-screen">
             <h1 className='text-3xl font-bold text-red-500 text-center mt-36 mb-10'>Power-Hack is a power distribution company.</h1>
             <div className='flex justify-center items-center'>
                 <div className="card w-96 bg-base-100 shadow-xl p-5">

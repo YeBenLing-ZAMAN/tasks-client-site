@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import AddBillOnModal from './AddBillOnModal';
 import BillsRow from './BillsRow';
 
@@ -42,7 +41,7 @@ const Layout = () => {
                         </div>
                     </div>
                     <div className="flex-none gap-2">
-                        <label for="my-modal-6" onClick={()=>setForModalPopUp(true)} class="btn btn-primary modal-button">Add New Bill</label>
+                        <label htmlFor="my-modal-6" onClick={()=>setForModalPopUp(true)} className="btn btn-primary modal-button">Add New Bill</label>
                     </div>
                 </div>
             </div>

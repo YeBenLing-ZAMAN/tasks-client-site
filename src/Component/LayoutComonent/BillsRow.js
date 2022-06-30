@@ -1,7 +1,7 @@
 import React from 'react';
 
 const BillsRow = ({index,billingList}) => {
-    const {phone,balance,paid_amount,email,full_name,id}= billingList;
+    const {phone,paid_amount,email,full_name,id}= billingList;
     return (
         <tr>
         <th>{id}</th>
