@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import { useQuery } from 'react-query';
 import AddBillOnModal from './AddBillOnModal';
 import BillsRow from './BillsRow';
+import DeleteBillOnModal from './DeleteBillOnModal';
 
 const Layout = () => {
 
     // const [billingList, setBillingList] = useState([]);
     const [forModalPopUp, setForModalPopUp] = useState(null);
     const [paidTotal, setPaidTotal] = useState(0);
+    const [deleteBill, setDeleteBill] = useState(null);
 
 
     const { data: billingList, refetch } = useQuery('users', () => fetch(`http://localhost:5000/billing_list`, {
@@ -25,7 +27,6 @@ const Layout = () => {
         console.log(temp);
     });
     */
-
 
     // console.log(billingList);
     return (
@@ -59,7 +60,7 @@ const Layout = () => {
                 </div>
             </div>
 
-            {/* add new bill button click and getting a modal */}
+            {/* add new bill item button click handle and getting with a modal */}
             {
                 forModalPopUp && <AddBillOnModal
                     setForModalPopUp={setForModalPopUp}
@@ -68,6 +69,14 @@ const Layout = () => {
                 ></AddBillOnModal>
             }
 
+            {/* delete one bill item button click handle and getting with a modal */}
+            {
+                deleteBill && <DeleteBillOnModal
+                    setDeleteBill={setDeleteBill}
+                    deleteBill={deleteBill}
+                    refetch={refetch}
+                ></DeleteBillOnModal>
+            }
 
             {/* all bill information stored and showing on list */}
 
@@ -86,7 +95,14 @@ const Layout = () => {
                     </thead>
                     <tbody>
                         {
-                            billingList?.map((billingList, index) => <BillsRow key={billingList._id} billingList={billingList} paidTotal={paidTotal} setPaidTotal={setPaidTotal} index={index} ></BillsRow>)
+                            billingList?.map((bill, index) => <BillsRow
+                                key={bill._id}
+                                bill={bill}
+                                paidTotal={paidTotal}
+                                setPaidTotal={setPaidTotal}
+                                index={index}
+                                setDeleteBill={setDeleteBill}
+                            ></BillsRow>)
                         }
                     </tbody>
                 </table>

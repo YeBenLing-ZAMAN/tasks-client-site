@@ -1,7 +1,8 @@
 import React from 'react';
 
-const BillsRow = ({index,billingList,setPaidTotal,paidTotal}) => {
-    const {phone,paid_amount,email,full_name,_id}= billingList;    
+const BillsRow = ({index,bill,setPaidTotal,paidTotal,setDeleteBill}) => {
+    const {phone,paid_amount,email,full_name,_id}= bill; 
+    // console.log(bill);   
     return (
         <tr>
         <th>{_id}</th>
@@ -11,7 +12,7 @@ const BillsRow = ({index,billingList,setPaidTotal,paidTotal}) => {
         <td>${paid_amount}</td>
         <td>
             <button className='btn btn-xs btn-info mr-2'>edit</button>
-            <button className='btn btn-xs btn-warning'>delete</button>
+            <label for="bill-delete" onClick={() =>setDeleteBill(bill)} className='btn btn-xs btn-warning'>delete</label>
         </td>
     </tr>
     );
