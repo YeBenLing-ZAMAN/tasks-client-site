@@ -1,30 +1,43 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import { useQuery } from 'react-query';
 import AddBillOnModal from './AddBillOnModal';
 import BillsRow from './BillsRow';
 
 const Layout = () => {
 
-    const [billingList, setBillingList] = useState([]);
+    // const [billingList, setBillingList] = useState([]);
     const [forModalPopUp, setForModalPopUp] = useState(null);
+    const [paidTotal, setPaidTotal] = useState(0);
 
-    useEffect(() => {
-        fetch('fakedata.json')
-            .then(res => res.json())
-            .then(data => setBillingList(data));
-    }, []);
+
+    const { data: billingList, refetch } = useQuery('users', () => fetch(`http://localhost:5000/billing_list`, {
+        method: "GET",
+        headers: {
+            // authorization: `Bearer ${localStorage.getItem('accesstoken')}`
+        }
+    }).then(res => res.json()));
+
+    /* paid total add and set to navbar for display 
+    billingList?.forEach(bill => {
+        console.log(bill.paid_amount);
+        let temp = (parseFloat(bill.paid_amount));
+        // setPaidTotal(paidTotal + temp);
+        console.log(temp);
+    });
+    */
+
 
     // console.log(billingList);
     return (
         <>
             {/* navbar */}
-
             <div className="bg-base-300">
                 <div className='navbar max-w-7xl mx-auto'>
                     <div className="flex-1">
                         <button className="btn btn-ghost normal-case text-xl">Logo</button>
                     </div>
                     <div className="flex-none">
-                        <p className="font-bold">Paid Total : </p>
+                        <p className="font-bold">Paid Total :${paidTotal} </p>
                     </div>
                 </div>
             </div>
@@ -41,7 +54,7 @@ const Layout = () => {
                         </div>
                     </div>
                     <div className="flex-none gap-2">
-                        <label htmlFor="my-modal-6" onClick={()=>setForModalPopUp(true)} className="btn btn-primary modal-button">Add New Bill</label>
+                        <label htmlFor="my-modal-6" onClick={() => setForModalPopUp(true)} className="btn btn-primary modal-button">Add New Bill</label>
                     </div>
                 </div>
             </div>
@@ -49,8 +62,9 @@ const Layout = () => {
             {/* add new bill button click and getting a modal */}
             {
                 forModalPopUp && <AddBillOnModal
-                setForModalPopUp={setForModalPopUp}
-                forModalPopUp={forModalPopUp}
+                    setForModalPopUp={setForModalPopUp}
+                    forModalPopUp={forModalPopUp}
+                    refetch={refetch}
                 ></AddBillOnModal>
             }
 
@@ -72,7 +86,7 @@ const Layout = () => {
                     </thead>
                     <tbody>
                         {
-                            billingList?.map((billingList, index) => <BillsRow key={billingList.id} billingList={billingList} index={index} ></BillsRow>)
+                            billingList?.map((billingList, index) => <BillsRow key={billingList._id} billingList={billingList} paidTotal={paidTotal} setPaidTotal={setPaidTotal} index={index} ></BillsRow>)
                         }
                     </tbody>
                 </table>

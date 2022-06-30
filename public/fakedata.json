@@ -5,8 +5,7 @@
       "email": "burgessreeves@zensor.com",
       "paid_amount": "$2,067.45",
       "balance": "$3,913.43",
-      "picture": "http://placehold.it/32x32",
-      "phone": 3907224831
+      "phone": "3907224831"
     },
     {
       "id": "62bd1deb50e68f23e523df09",
@@ -14,8 +13,7 @@
       "email": "tamerajacobs@zensor.com",
       "paid_amount": "$1,479.42",
       "balance": "$3,699.84",
-      "picture": "http://placehold.it/32x32",
-      "phone": 5886098910
+      "phone": "5886098910"
     },
     {
       "id": "62bd1deb35ad7c0e6d552889",
@@ -23,8 +21,7 @@
       "email": "simpsonjohnson@zensor.com",
       "paid_amount": "$3,682.18",
       "balance": "$1,953.82",
-      "picture": "http://placehold.it/32x32",
-      "phone": 3559539783
+      "phone": "3559539783"
     },
     {
       "id": "62bd1deb87200f0e4abbd25b",
@@ -32,8 +29,7 @@
       "email": "julianavaughan@zensor.com",
       "paid_amount": "$2,209.26",
       "balance": "$1,881.70",
-      "picture": "http://placehold.it/32x32",
-      "phone": 8997177635
+      "phone": "8997177635"
     },
     {
       "id": "62bd1deb972a1236d4e40712",
@@ -41,8 +37,7 @@
       "email": "wardfloyd@zensor.com",
       "paid_amount": "$1,764.59",
       "balance": "$1,834.07",
-      "picture": "http://placehold.it/32x32",
-      "phone": 4128180305
+      "phone": "4128180305"
     },
     {
       "id": "62bd1debe1b0c947e1b723ee",
@@ -50,8 +45,7 @@
       "email": "ingramwoods@zensor.com",
       "paid_amount": "$1,148.01",
       "balance": "$2,356.76",
-      "picture": "http://placehold.it/32x32",
-      "phone": 9363967317
+      "phone": "9363967317"
     },
     {
       "id": "62bd1deba47119eb6b6b9fd6",
@@ -59,7 +53,6 @@
       "email": "lorabrown@zensor.com",
       "paid_amount": "$3,955.98",
       "balance": "$3,956.85",
-      "picture": "http://placehold.it/32x32",
-      "phone": 2258005530
+      "phone": "2258005530"
     }
   ]

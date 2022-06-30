@@ -3,12 +3,37 @@ import { useForm, Controller } from "react-hook-form";
 import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import "react-phone-number-input/style.css";
 
-const AddBillOnModal = ({ setForModalPopUp, forModalPopUp }) => {
+const AddBillOnModal = ({ setForModalPopUp, forModalPopUp, refetch }) => {
 
-    const { register, formState: { errors }, handleSubmit, control } = useForm();
+    const { register, formState: { errors }, handleSubmit, control, reset } = useForm();
 
     const onSubmit = async data => {
         console.log(data);
+        const bill_info = {
+            full_name: data.name,
+            email:data.email,
+            paid_amount:data.amount,
+            phone:data.phone
+        }
+        fetch(`http://localhost:5000/add_billing`, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json',
+                // authorization: `Bearer ${localStorage.getItem('accesstoken')}`
+            },
+            body: JSON.stringify(bill_info)
+        })
+            .then(res => res.json())
+            .then(inserted => {
+                if (inserted.insertedId) {
+                    console.log('successfully added in db');
+                    refetch();
+                    reset();
+                } else {
+                    console.log("failed to added in db");
+                }
+                console.log("reuslt line 31 : ", inserted)
+            })
     }
 
     return (
@@ -97,9 +122,9 @@ const AddBillOnModal = ({ setForModalPopUp, forModalPopUp }) => {
 
                                 {/* phone number vaildation */}
                                 <div className='form-control w-full max-w-xs'>
-                                    <label htmlFor="phone-input">Phone Number</label>
+                                    <label htmlFor="phone">Phone Number</label>
                                     <Controller
-                                        name="phone-input"
+                                        name="phone"
                                         control={control}
                                         rules={{
                                             validate: (value) => isValidPhoneNumber(value)
@@ -110,11 +135,11 @@ const AddBillOnModal = ({ setForModalPopUp, forModalPopUp }) => {
                                                 className="input input-bordered w-full max-w-xs"
                                                 onChange={onChange}
                                                 defaultCountry="TH"
-                                                id="phone-input"
+                                                id="phone"
                                             />
                                         )}
                                     />
-                                    {errors["phone-input"] && (
+                                    {errors["phone"] && (
                                         <p className="error-message label-text-alt text-red-500">Invalid Phone</p>
                                     )}
                                 </div>
