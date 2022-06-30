@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { useForm } from "react-hook-form";
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 import useToken from './useToken';
 
 const Signup = () => {
     const [user, setUser] = useState(null);
     const { register, formState: { errors }, handleSubmit, watch, reset } = useForm();
+    const navigate = useNavigate();
 
     const onSubmit = async data => {
         console.log(data);
@@ -31,8 +32,12 @@ const Signup = () => {
             })
 
     }
-    
+
     const [token] = useToken(user);
+    
+    if(token){
+        navigate('/login')
+    }
 
 
     return (

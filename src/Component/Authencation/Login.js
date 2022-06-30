@@ -1,17 +1,47 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
 import { useForm } from "react-hook-form";
-
+import { Link,useNavigate } from 'react-router-dom';
+import useToken from './useToken';
 
 
 const Login = () => {
 
+    const [user, setUser] = useState(null);
+    const [loginError, setLoginError] = useState("");
     const { register, formState: { errors }, handleSubmit } = useForm();
+    const navigate = useNavigate();
 
 
     const onSubmit = async data => {
         console.log(data);
+        const email = data.email;
+        fetch(`http://localhost:5000/login/${email}`, {
+            method: 'GET',
+            headers: {
+                'content-type': 'application/json',
+            }
+        })
+            .then(res => res.json())
+            .then(serverData => {
+                 console.log('user data', serverData);
+                 if(serverData?.email){
+                    if(serverData?.password === data.password){
+                        setUser(data);
+                    }else{
+                        setLoginError('password is not match please retry');
+                    }
+                 }else{
+                    console.log('failed');
+                    setLoginError('Email/user is not regiester yet');
+                 }
+            })
     }
+
+    const [token] = useToken(user);
+    if(token){
+        navigate('/layout');
+    }
+
 
 
 
@@ -94,7 +124,7 @@ const Login = () => {
                                 </label>
                             </div>
 
-                            {/* signInError */}
+                            <p className='text-red-500 my-2'>{loginError}</p>
 
                             <input className='btn w-full max-w-xs text-white' type="submit" value="Login" />
                         </form>

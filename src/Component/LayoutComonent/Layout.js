@@ -4,6 +4,8 @@ import AddBillOnModal from './AddBillOnModal';
 import BillsRow from './BillsRow';
 import DeleteBillOnModal from './DeleteBillOnModal';
 import EditBillOnModal from './EditBillOnModal';
+import {  useNavigate } from 'react-router-dom';
+
 
 const Layout = () => {
 
@@ -12,25 +14,24 @@ const Layout = () => {
     const [paidTotal, setPaidTotal] = useState(0);
     const [deleteBill, setDeleteBill] = useState(null);
     const [editBillID, setEditBillId] = useState(null);
+    const navigate = useNavigate();
 
 
     const { data: billingList, refetch } = useQuery('users', () => fetch(`http://localhost:5000/billing_list`, {
         method: "GET",
         headers: {
-            // authorization: `Bearer ${localStorage.getItem('accesstoken')}`
+            authorization: `Bearer ${localStorage.getItem('accesstoken')}`
         }
-    }).then(res => res.json()));
+    }).then(res => {
+        // console.log("res", res);
+       if (res.status === 401 || res.status === 403) {
+           localStorage.removeItem('accesstoken');
+           navigate('/login');
+            // console.log("problem found");
+       } else if (res.status)
+           return res.json()
+   }));;
 
-    /* paid total add and set to navbar for display 
-    billingList?.forEach(bill => {
-        console.log(bill.paid_amount);
-        let temp = (parseFloat(bill.paid_amount));
-        // setPaidTotal(paidTotal + temp);
-        console.log(temp);
-    });
-    */
-
-    // console.log(billingList);
     return (
         <>
             {/* navbar */}
