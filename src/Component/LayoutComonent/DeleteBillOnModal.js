@@ -1,16 +1,31 @@
 import React from 'react';
 
 const DeleteBillOnModal = ({deleteBill, setDeleteBill, refetch}) => {
-    // console.log(deleteBill);
+    console.log(deleteBill);
     const {email,full_name,paid_amount,phone,_id}= deleteBill;
-    const handleDelete = () => {
-        console.log('i clicked');
+    const handleDelete = (_id) => {
+        // console.log('i clicked');
+        console.log(_id);
+        fetch(`http://localhost:5000/deletebilling/${_id}`, {
+            method: 'DELETE',
+            headers: {
+
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                //  console.log(data);
+                if (data.deletedCount) {
+                    console.log(`bill items is deleted`);
+                    refetch();
+                }
+            })
+
         setDeleteBill(null);
 
     }
     return (
         <div>
-            <h1 className='text-xl font-bold text-center'>Admin your are sure to cancel this {_id} bill</h1>
             <input type="checkbox" id="bill-delete" class="modal-toggle" />
             <div class="modal modal-bottom sm:modal-middle">
                 <div class="modal-box">
@@ -50,7 +65,7 @@ const DeleteBillOnModal = ({deleteBill, setDeleteBill, refetch}) => {
 
                     <p class="py-4 text-primary mt-10 capitalize">if your confirm then press delete button otherwise press cancel</p>
                     <div class="modal-action mt-[-5px]">
-                        <button onClick={() => handleDelete()} className='btn btn-warning'>Confirm Delete</button>
+                        <button onClick={() => handleDelete(_id)} className='btn btn-warning'>Confirm Delete</button>
                         <label htmlFor="bill-delete" class="btn btn-error">Canecl</label>
                     </div>
                 </div>
