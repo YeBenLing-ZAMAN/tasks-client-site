@@ -1,0 +1,45 @@
+.modal-area {
+    width: 60%;
+    height: 80%;
+}
+
+.modal-card-area {
+    height: 60%;
+    background: red;
+}
+
+.modal-carousel-area {
+    background-color: blue;
+}
+
+.main-container-div{
+  height: 80%;
+}
+
+
+@media only screen and (max-width: 600px) {
+    .modal-area {
+        width: 100%;
+    }
+}
+
+.close-button {
+    position: fixed;
+    bottom: 0;
+}
+
+
+.details-card-div.details-card-image {
+    overflow: hidden;
+}
+
+.details-card-div.details-card-image > img {
+    display: block;
+    width: 100%;
+    max-height: 200px;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    object-position: center;
+}
+
+

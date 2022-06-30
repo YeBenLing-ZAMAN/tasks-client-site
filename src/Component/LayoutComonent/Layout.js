@@ -3,6 +3,7 @@ import { useQuery } from 'react-query';
 import AddBillOnModal from './AddBillOnModal';
 import BillsRow from './BillsRow';
 import DeleteBillOnModal from './DeleteBillOnModal';
+import EditBillOnModal from './EditBillOnModal';
 
 const Layout = () => {
 
@@ -10,6 +11,7 @@ const Layout = () => {
     const [forModalPopUp, setForModalPopUp] = useState(null);
     const [paidTotal, setPaidTotal] = useState(0);
     const [deleteBill, setDeleteBill] = useState(null);
+    const [editBillID, setEditBillId] = useState(null);
 
 
     const { data: billingList, refetch } = useQuery('users', () => fetch(`http://localhost:5000/billing_list`, {
@@ -60,7 +62,7 @@ const Layout = () => {
                 </div>
             </div>
 
-            {/* add new bill item button click handle and getting with a modal */}
+            {/* add new bill item button click on BillsRow handle and getting with a modal */}
             {
                 forModalPopUp && <AddBillOnModal
                     setForModalPopUp={setForModalPopUp}
@@ -69,13 +71,22 @@ const Layout = () => {
                 ></AddBillOnModal>
             }
 
-            {/* delete one bill item button click handle and getting with a modal */}
+            {/* delete one bill item button click on BillsRow handle and getting with a modal */}
             {
                 deleteBill && <DeleteBillOnModal
                     setDeleteBill={setDeleteBill}
                     deleteBill={deleteBill}
                     refetch={refetch}
                 ></DeleteBillOnModal>
+            }
+
+            {/* edit one bill item button click on BillsRow handle and getting with a modal */}
+            {
+                editBillID && <EditBillOnModal
+                setEditBill={setEditBillId}
+                editBillID={editBillID}
+                    refetch={refetch}
+                ></EditBillOnModal>
             }
 
             {/* all bill information stored and showing on list */}
@@ -102,6 +113,7 @@ const Layout = () => {
                                 setPaidTotal={setPaidTotal}
                                 index={index}
                                 setDeleteBill={setDeleteBill}
+                                setEditBillId={setEditBillId}
                             ></BillsRow>)
                         }
                     </tbody>

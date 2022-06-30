@@ -22,11 +22,12 @@ const DeleteBillOnModal = ({deleteBill, setDeleteBill, refetch}) => {
             })
 
         setDeleteBill(null);
+        console.log(deleteBill);
 
     }
     return (
         <div>
-            <input type="checkbox" id="bill-delete" class="modal-toggle" />
+            <input type="checkbox" id="bill-delete-model-popup" class="modal-toggle" />
             <div class="modal modal-bottom sm:modal-middle">
                 <div class="modal-box">
                     <h3 class="font-bold text-xl text-red-500 capitalize text-center mb-8">Are you sure to delete this Bill</h3>
@@ -66,7 +67,7 @@ const DeleteBillOnModal = ({deleteBill, setDeleteBill, refetch}) => {
                     <p class="py-4 text-primary mt-10 capitalize">if your confirm then press delete button otherwise press cancel</p>
                     <div class="modal-action mt-[-5px]">
                         <button onClick={() => handleDelete(_id)} className='btn btn-warning'>Confirm Delete</button>
-                        <label htmlFor="bill-delete" class="btn btn-error">Canecl</label>
+                        <label onClick={()=>setDeleteBill(null)} htmlFor="bill-delete-model-popup" class="btn btn-error">Canecl</label>
                     </div>
                 </div>
             </div>
