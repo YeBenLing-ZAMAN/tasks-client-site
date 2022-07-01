@@ -12,7 +12,7 @@ const AddBillOnModal = ({ setForModalPopUp, forModalPopUp, refetch }) => {
         const bill_info = {
             full_name: data.name,
             email:data.email,
-            paid_amount:data.amount,
+            paid_amount:parseFloat(data.amount),
             phone:data.phone
         }
         fetch(`http://localhost:5000/add_billing`, {

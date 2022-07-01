@@ -1,6 +1,6 @@
 import React from 'react';
 
-const BillsRow = ({index,bill,setPaidTotal,paidTotal,setDeleteBill,setEditBillId}) => {
+const BillsRow = ({index,bill,setDeleteBill,setEditBillId}) => {
     const {phone,paid_amount,email,full_name,_id}= bill; 
     // console.log(bill);   
     return (

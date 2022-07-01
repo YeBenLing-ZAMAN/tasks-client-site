@@ -5,20 +5,26 @@ import Signup from './Component/Authencation/Signup';
 import PageNotFound from './Component/PageNotFound';
 import Layout from './Component/LayoutComonent/Layout';
 import PrivateRoute from './Component/Authencation/PrivateRoute';
+import { createContext, useState } from 'react';
+
+export const AuthContext = createContext(false);
 
 function App() {
+  const [authToggle, setAuthToggle] = useState(true);
+
   return (
     <div>
-      <Routes>
-        <Route path="/" element={<Signup />} />
-        <Route path="login" element={<Login />} />
-        <Route path="signup" element={<Signup />} />
-        <Route element={<PrivateRoute />}>
-          <Route path="layout" element={<Layout />} />
-        </Route>
-        <Route path="*" element={<PageNotFound />} />
-
-      </Routes>
+      <AuthContext.Provider value={[authToggle, setAuthToggle]}>
+        <Routes>
+          <Route path="/" element={<Signup />} />
+          <Route path="signup" element={<Signup />} />
+          <Route path="login" element={<Login />} />
+          <Route element={<PrivateRoute />}>
+            <Route path="layout" element={<Layout />} />
+          </Route>
+          <Route path="*" element={<PageNotFound />} />
+        </Routes>
+      </AuthContext.Provider>
 
     </div>
   );

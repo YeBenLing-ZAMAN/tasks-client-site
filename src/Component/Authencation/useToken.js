@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react"
 
 const useToken = user => {
+
     console.log('user useToken', user);
     const [token, setToken] = useState('');
+    const [tokenLoading, setTokenLoading] = useState(true);
     useEffect(() => {
         const email = user?.email;
         const currentUser = { email: email };
@@ -22,11 +24,13 @@ const useToken = user => {
                 const accesstoken = data.token;
                 localStorage.setItem('accesstoken',accesstoken);
                 setToken (accesstoken);
+                // setAuthToggle(true);
+                setTokenLoading(false);
             })
         }
 
     }, [user])
-    return [token];
+    return [token,tokenLoading];
 }
 
 export default useToken;

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useForm } from "react-hook-form";
-import { Link,useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import Loading from '../Loading';
 import useToken from './useToken';
 
 
@@ -10,6 +11,7 @@ const Login = () => {
     const [loginError, setLoginError] = useState("");
     const { register, formState: { errors }, handleSubmit } = useForm();
     const navigate = useNavigate();
+
 
 
     const onSubmit = async data => {
@@ -23,23 +25,28 @@ const Login = () => {
         })
             .then(res => res.json())
             .then(serverData => {
-                 console.log('user data', serverData);
-                 if(serverData?.email){
-                    if(serverData?.password === data.password){
+                console.log('user data', serverData);
+                if (serverData?.email) {
+                    if (serverData?.password === data.password) {
+                        console.log("i am here");
                         setUser(data);
-                    }else{
+                    } else {
                         setLoginError('password is not match please retry');
                     }
-                 }else{
+                } else {
                     console.log('failed');
                     setLoginError('Email/user is not regiester yet');
-                 }
+                }
             })
     }
 
     const [token] = useToken(user);
-    if(token){
+    if (token) {
         navigate('/layout');
+    }
+
+    if(false){
+        return <Loading></Loading>
     }
 
 

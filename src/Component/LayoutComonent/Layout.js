@@ -5,19 +5,21 @@ import BillsRow from './BillsRow';
 import DeleteBillOnModal from './DeleteBillOnModal';
 import EditBillOnModal from './EditBillOnModal';
 import {  useNavigate } from 'react-router-dom';
+import Loading from '../Loading';
 
+let totalPaid;
 
 const Layout = () => {
-
+    
     // const [billingList, setBillingList] = useState([]);
     const [forModalPopUp, setForModalPopUp] = useState(null);
-    const [paidTotal, setPaidTotal] = useState(0);
     const [deleteBill, setDeleteBill] = useState(null);
     const [editBillID, setEditBillId] = useState(null);
     const navigate = useNavigate();
 
 
-    const { data: billingList, refetch } = useQuery('users', () => fetch(`http://localhost:5000/billing_list`, {
+
+    const { data: billingList, isLoading, refetch } = useQuery('users', () => fetch(`http://localhost:5000/billing_list`, {
         method: "GET",
         headers: {
             authorization: `Bearer ${localStorage.getItem('accesstoken')}`
@@ -32,16 +34,27 @@ const Layout = () => {
            return res.json()
    }));;
 
+   if(isLoading){
+    return <Loading></Loading>
+   }
+
+   if(billingList){
+    console.log(billingList);
+    totalPaid = billingList.map(item => item.paid_amount).reduce((prev, curr) => prev + curr, 0);
+   }
+
+
+
     return (
         <>
             {/* navbar */}
             <div className="bg-base-300">
                 <div className='navbar max-w-7xl mx-auto'>
                     <div className="flex-1">
-                        <button className="btn btn-ghost normal-case text-xl">Logo</button>
+                        <button className="btn btn-ghost normal-case text-xl" >SignOut</button>
                     </div>
                     <div className="flex-none">
-                        <p className="font-bold">Paid Total :${paidTotal} </p>
+                        <p className="font-bold">Paid Total :$<span className='text-red-500'>{totalPaid}</span> </p>
                     </div>
                 </div>
             </div>
@@ -110,8 +123,6 @@ const Layout = () => {
                             billingList?.map((bill, index) => <BillsRow
                                 key={bill._id}
                                 bill={bill}
-                                paidTotal={paidTotal}
-                                setPaidTotal={setPaidTotal}
                                 index={index}
                                 setDeleteBill={setDeleteBill}
                                 setEditBillId={setEditBillId}

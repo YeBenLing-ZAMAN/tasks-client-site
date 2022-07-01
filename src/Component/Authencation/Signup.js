@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useForm } from "react-hook-form";
 import { Link,useNavigate } from 'react-router-dom';
+import Loading from '../Loading';
 import useToken from './useToken';
 
 const Signup = () => {
@@ -37,6 +38,10 @@ const Signup = () => {
     
     if(token){
         navigate('/login')
+    }
+
+    if(false){
+        return <Loading></Loading>
     }
 
 
