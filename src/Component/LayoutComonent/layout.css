@@ -1,6 +1,11 @@
+.table-container{
+    height: 70vh;
+}
+
 .pageNumbers{
     list-style: none;
     display: flex;
+    justify-content: center;
 }
 
 .pageNumbers li{

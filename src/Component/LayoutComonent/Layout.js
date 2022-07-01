@@ -20,7 +20,7 @@ const Layout = () => {
 
     /* pagination */
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage, setitemPerPage] = useState(2);
+    const [itemsPerPage, setitemPerPage] = useState(10);
     const pages = [];
     const indexofLastItem = currentPage * itemsPerPage;
     const indexofFirstItem = indexofLastItem - itemsPerPage;
@@ -89,6 +89,29 @@ const Layout = () => {
         }
     })]
 
+    const handleNextButton = () => {
+        setCurrentPage(currentPage + 1);
+        if (currentPage + 1 > maxPageNumberLimit) {
+            setMaxPageNumberLimit(maxPageNumberLimit + pageNumberLimit);
+            setMinPageNumberLimit(minPageNumberLimit + pageNumberLimit);
+        }
+    };
+    const handlePrevButton = () => {
+        setCurrentPage(currentPage - 1);
+        if ((currentPage - 1) % pageNumberLimit == 0) {
+            setMaxPageNumberLimit(maxPageNumberLimit - pageNumberLimit);
+            setMinPageNumberLimit(minPageNumberLimit - pageNumberLimit);
+        }
+    };
+
+    // let pageIncrementBtn = null;
+    // if (pages.length > maxPageNumberLimit) {
+    //     pageIncrementBtn = <li onClick={handlePrevButton} disabled={currentPage == pages[0] ? true : false}>&hellip;</li>
+    // }
+    // let pageDecrementBtn = null;
+    // if (pages.length > maxPageNumberLimit) {
+    //     pageDecrementBtn = <li onClick={handleNextButton} disabled={currentPage == pages[pages.length - 1] ? true : false} >&hellip;</li>
+    // }
 
     return (
         <>
@@ -96,7 +119,7 @@ const Layout = () => {
             <div className="bg-base-300">
                 <div className='navbar max-w-7xl mx-auto'>
                     <div className="flex-1">
-                        <button className="btn btn-ghost normal-case text-xl" >SignOut</button>
+                        <button className="btn btn-ghost normal-case text-xl" >Logo</button>
                     </div>
                     <div className="flex-none">
                         <p className="font-bold">Paid Total :$<span className='text-red-500'>{totalPaid}</span> </p>
@@ -150,7 +173,7 @@ const Layout = () => {
 
             {/* all bill information stored and showing on list */}
 
-            <div className="overflow-x-auto max-w-7xl mx-auto mt-10">
+            <div className="overflow-x-auto max-w-7xl mx-auto mt-10 table-container">
                 <table className="table w-full">
                     {/* <!-- head --> */}
                     <thead>
@@ -173,28 +196,29 @@ const Layout = () => {
                                 setEditBillId={setEditBillId}
                             ></BillsRow>)
                         }
-                        {/* pagination page number rendeing */}
-                        <ul className='pageNumbers'>
-                            <li>
-                                {/* <button onClick={handlePrevButton}> */}
-                                <button>
-                                    prev
-                                </button>
-                            </li>
-                            {renderPageNumbers}
-                            <li>
-                                {/* <button onClick={handleNextButton}> */}
-                                <button>
-                                    next
-                                </button>
-                            </li>
-                        </ul>
+
                     </tbody>
                 </table>
             </div>
 
-
-
+            {/* pagination page number rendeing */}
+            <div className='w-full '>
+                <ul className='pageNumbers'>
+                    <li>
+                        <button onClick={handlePrevButton} disabled={currentPage == pages[0] ? true : false}>
+                            prev
+                        </button>
+                    </li>
+                    {/* {pageIncrementBtn} */}
+                    {renderPageNumbers}
+                    {/* {pageDecrementBtn} */}
+                    <li>
+                        <button onClick={handleNextButton} disabled={currentPage == pages[pages.length - 1] ? true : false}>
+                            next
+                        </button>
+                    </li>
+                </ul>
+            </div>
 
         </>
 
