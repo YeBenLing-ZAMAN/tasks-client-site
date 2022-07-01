@@ -60,6 +60,9 @@ const Layout = () => {
         console.log(billingList);
         totalPaid = billingList.map(item => item.paid_amount).reduce((prev, curr) => prev + curr, 0);
 
+        billingList.sort((a,b)=>{
+            return b.paid_amount-a.paid_amount;
+        })
 
         /* pagination */
         for (let i = 1; i <= Math.ceil(billingList.length / itemsPerPage); i++) {
@@ -104,14 +107,14 @@ const Layout = () => {
         }
     };
 
-    // let pageIncrementBtn = null;
-    // if (pages.length > maxPageNumberLimit) {
-    //     pageIncrementBtn = <li onClick={handlePrevButton} disabled={currentPage == pages[0] ? true : false}>&hellip;</li>
-    // }
-    // let pageDecrementBtn = null;
-    // if (pages.length > maxPageNumberLimit) {
-    //     pageDecrementBtn = <li onClick={handleNextButton} disabled={currentPage == pages[pages.length - 1] ? true : false} >&hellip;</li>
-    // }
+    let pageIncrementBtn = null;
+    if (pages.length > maxPageNumberLimit) {
+        pageIncrementBtn = <li onClick={handlePrevButton} disabled={currentPage == pages[0] ? true : false}>&hellip;</li>
+    }
+    let pageDecrementBtn = null;
+    if (pages.length > maxPageNumberLimit) {
+        pageDecrementBtn = <li onClick={handleNextButton} disabled={currentPage == pages[pages.length - 1] ? true : false} >&hellip;</li>
+    }
 
     return (
         <>
@@ -209,9 +212,9 @@ const Layout = () => {
                             prev
                         </button>
                     </li>
-                    {/* {pageIncrementBtn} */}
+                    {pageIncrementBtn}
                     {renderPageNumbers}
-                    {/* {pageDecrementBtn} */}
+                    {pageDecrementBtn}
                     <li>
                         <button onClick={handleNextButton} disabled={currentPage == pages[pages.length - 1] ? true : false}>
                             next

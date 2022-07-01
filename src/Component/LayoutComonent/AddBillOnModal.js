@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm, Controller } from "react-hook-form";
 import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import "react-phone-number-input/style.css";
@@ -6,6 +6,7 @@ import "react-phone-number-input/style.css";
 const AddBillOnModal = ({ setForModalPopUp, forModalPopUp, refetch }) => {
 
     const { register, formState: { errors }, handleSubmit, control, reset } = useForm();
+    const [addtoggle, setToggle] = useState(true);
 
     const onSubmit = async data => {
         console.log(data);
@@ -29,6 +30,7 @@ const AddBillOnModal = ({ setForModalPopUp, forModalPopUp, refetch }) => {
                     console.log('successfully added in db');
                     refetch();
                     reset();
+                    setToggle(false);
                 } else {
                     console.log("failed to added in db");
                 }
@@ -175,8 +177,6 @@ const AddBillOnModal = ({ setForModalPopUp, forModalPopUp, refetch }) => {
                                 <input className='btn w-full max-w-xs text-white mt-10' type="submit" value="add" />
                             </form>
                         </div>
-
-
                     </div>
 
 

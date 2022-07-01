@@ -243,7 +243,7 @@ const EditBillOnModal = ({ editBillID, setEditBill, refetch }) => {
                         </div>
                             :
                             <div className=''>
-                                <h1>successfully added</h1>
+                                <h1 className='text-xl text-red-500'>successfully Edit</h1>
                                 <label  htmlFor="bill-edit-model-popup" className="btn btn-error text-white">Close!</label>
                             </div>
                     }
