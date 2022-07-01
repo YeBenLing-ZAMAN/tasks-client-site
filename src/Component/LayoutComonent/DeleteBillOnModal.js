@@ -6,7 +6,7 @@ const DeleteBillOnModal = ({deleteBill, setDeleteBill, refetch}) => {
     const handleDelete = (_id) => {
         // console.log('i clicked');
         console.log(_id);
-        fetch(`http://localhost:5000/deletebilling/${_id}`, {
+        fetch(`https://dry-chamber-27826.herokuapp.com/deletebilling/${_id}`, {
             method: 'DELETE',
             headers: {
 

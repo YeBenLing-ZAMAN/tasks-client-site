@@ -37,7 +37,7 @@ const Layout = () => {
     }
 
 
-    const { data: billingList, isLoading, refetch } = useQuery('users', () => fetch(`http://localhost:5000/billing_list`, {
+    const { data: billingList, isLoading, refetch } = useQuery('users', () => fetch(`https://dry-chamber-27826.herokuapp.com/billing_list`, {
         method: "GET",
         headers: {
             authorization: `Bearer ${localStorage.getItem('accesstoken')}`

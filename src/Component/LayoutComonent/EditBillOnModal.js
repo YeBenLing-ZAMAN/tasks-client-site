@@ -15,7 +15,7 @@ const EditBillOnModal = ({ editBillID, setEditBill, refetch }) => {
 
     useEffect(() => {
         const loadData = async () => {
-            await fetch(`http://localhost:5000/billing_list/${id}`)
+            await fetch(`https://dry-chamber-27826.herokuapp.com/billing_list/${id}`)
                 .then(res => res.json())
                 .then(data => setBill(data))
         }
@@ -24,7 +24,7 @@ const EditBillOnModal = ({ editBillID, setEditBill, refetch }) => {
     }, [id])
 
 
-    // const { data: bill, refetch: editModalRefetch } = useQuery('users', () => fetch(`http://localhost:5000/billing_list/${id}`, {
+    // const { data: bill, refetch: editModalRefetch } = useQuery('users', () => fetch(`https://dry-chamber-27826.herokuapp.com/billing_list/${id}`, {
     //     method: "GET",
     //     headers: {
     //         // authorization: `Bearer ${localStorage.getItem('accesstoken')}`
@@ -40,7 +40,7 @@ const EditBillOnModal = ({ editBillID, setEditBill, refetch }) => {
         event.preventDefault();
         console.log(data);
 
-        fetch(`http://localhost:5000/update_billing/${_id}`, {
+        fetch(`https://dry-chamber-27826.herokuapp.com/update_billing/${_id}`, {
             method: 'PATCH',
             headers: {
                 'content-type': 'application/json',
