@@ -16,6 +16,7 @@ const Layout = () => {
     const [forModalPopUp, setForModalPopUp] = useState(null);
     const [deleteBill, setDeleteBill] = useState(null);
     const [editBillID, setEditBillId] = useState(null);
+    const [addmodalPopUpSuccesMessage, setaddmodalPopUpSuccesMessage] =useState(true);
     const navigate = useNavigate();
 
     /* pagination */
@@ -35,6 +36,10 @@ const Layout = () => {
     const handleClick = (event) => {
         setCurrentPage(Number(event.target.id));
     }
+    const clicksModalPopUpSuccesMessagehandle=()=>{
+        setaddmodalPopUpSuccesMessage(true);
+        setForModalPopUp(true);
+    }
 
 
     const { data: billingList, isLoading, refetch } = useQuery('users', () => fetch(`https://dry-chamber-27826.herokuapp.com/billing_list`, {
@@ -43,11 +48,11 @@ const Layout = () => {
             authorization: `Bearer ${localStorage.getItem('accesstoken')}`
         }
     }).then(res => {
-        // console.log("res", res);
+        // // console.log("res", res);
         if (res.status === 401 || res.status === 403) {
             localStorage.removeItem('accesstoken');
             navigate('/login');
-            // console.log("problem found");
+            // // console.log("problem found");
         } else if (res.status)
             return res.json()
     }));;
@@ -57,11 +62,12 @@ const Layout = () => {
     }
 
     if (billingList) {
-        console.log(billingList);
-        totalPaid = billingList.map(item => item.paid_amount).reduce((prev, curr) => prev + curr, 0);
+        // console.log(billingList);
+            totalPaid = billingList.map(item => item.paid_amount).reduce((prev, curr) => prev + curr, 0); 
 
         billingList.sort((a,b)=>{
-            return b.paid_amount-a.paid_amount;
+            // console.log('a', typeof(a.paid_amount));
+            return b.paid_amount  - a.paid_amount;
         })
 
         /* pagination */
@@ -69,13 +75,7 @@ const Layout = () => {
             pages.push(i);
         }
         currentItems = billingList.slice(indexofFirstItem, indexofLastItem);
-        console.log(indexofFirstItem);
-        console.log(indexofLastItem);
-        console.log('here', billingList);
-        console.log(currentItems);
-
     }
-    // const currentItems =billingList.slice(indexofFirstItem, indexofFirstItem);
 
     const renderPageNumbers = [pages?.map(number => {
         if (number < maxPageNumberLimit + 1 && number > minPageNumberLimit) {
@@ -142,7 +142,7 @@ const Layout = () => {
                         </div>
                     </div>
                     <div className="flex-none gap-2">
-                        <label htmlFor="my-modal-6" onClick={() => setForModalPopUp(true)} className="btn btn-primary modal-button">Add New Bill</label>
+                        <label htmlFor="my-modal-6" onClick={() => clicksModalPopUpSuccesMessagehandle()} className="btn btn-primary modal-button">Add New Bill</label>
                     </div>
                 </div>
             </div>
@@ -153,6 +153,8 @@ const Layout = () => {
                     setForModalPopUp={setForModalPopUp}
                     forModalPopUp={forModalPopUp}
                     refetch={refetch}
+                    addmodalPopUpSuccesMessage={addmodalPopUpSuccesMessage}
+                    setaddmodalPopUpSuccesMessage={setaddmodalPopUpSuccesMessage}
                 ></AddBillOnModal>
             }
 

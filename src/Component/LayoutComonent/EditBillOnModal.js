@@ -9,7 +9,7 @@ const EditBillOnModal = ({ editBillID, setEditBill, refetch }) => {
     // React.memo()
     const [bill, setBill] = useState([]);
     const [successfulToggle, setSuccessfulToggle] = useState(false);
-    console.log(editBillID);
+    // console.log(editBillID);
     const id = editBillID;
 
 
@@ -35,21 +35,22 @@ const EditBillOnModal = ({ editBillID, setEditBill, refetch }) => {
 
 
     const { register, formState: { errors }, handleSubmit, control, reset, setValue } = useForm();
-    console.log('re-render done');
+    // console.log('re-render done');
     const onSubmit = async (data, event) => {
         event.preventDefault();
-        console.log(data);
+        // console.log(data);
 
         fetch(`https://dry-chamber-27826.herokuapp.com/update_billing/${_id}`, {
             method: 'PATCH',
             headers: {
                 'content-type': 'application/json',
+                authorization: `Bearer ${localStorage.getItem('accesstoken')}`
             },
             body: JSON.stringify(data)
         })
             .then(res => res.json())
             .then(data => {
-                console.log('update', data)
+                // console.log('update', data)
                 refetch();
                 reset()
                 setSuccessfulToggle(true);

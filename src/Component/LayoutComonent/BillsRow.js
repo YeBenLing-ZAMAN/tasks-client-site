@@ -2,7 +2,7 @@ import React from 'react';
 
 const BillsRow = ({index,bill,setDeleteBill,setEditBillId}) => {
     const {phone,paid_amount,email,full_name,_id}= bill; 
-    // console.log(bill);   
+    // // console.log(bill);   
     return (
         <tr>
         <th>{_id}</th>

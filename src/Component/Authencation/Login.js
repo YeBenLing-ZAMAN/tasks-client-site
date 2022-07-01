@@ -15,7 +15,7 @@ const Login = () => {
 
 
     const onSubmit = async data => {
-        console.log(data);
+        // console.log(data);
         const email = data.email;
         fetch(`https://dry-chamber-27826.herokuapp.com/login/${email}`, {
             method: 'GET',
@@ -25,16 +25,16 @@ const Login = () => {
         })
             .then(res => res.json())
             .then(serverData => {
-                console.log('user data', serverData);
+                // console.log('user data', serverData);
                 if (serverData?.email) {
                     if (serverData?.password === data.password) {
-                        console.log("i am here");
+                        // console.log("i am here");
                         setUser(data);
                     } else {
                         setLoginError('password is not match please retry');
                     }
                 } else {
-                    console.log('failed');
+                    // console.log('failed');
                     setLoginError('Email/user is not regiester yet');
                 }
             })

@@ -10,26 +10,25 @@ const Signup = () => {
     const navigate = useNavigate();
 
     const onSubmit = async data => {
-        console.log(data);
+        // console.log(data);
         fetch(`https://dry-chamber-27826.herokuapp.com/registration`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json',
-                // authorization: `Bearer ${localStorage.getItem('accesstoken')}`
             },
             body: JSON.stringify(data)
         })
             .then(res => res.json())
             .then(inserted => {
-                console.log(inserted);
+                // console.log(inserted);
                 if (inserted.insertedId) {
-                    console.log(`user added successfully`);
+                    // console.log(`user added successfully`);
                     setUser(data);
                     reset();
                 } else {
-                    console.log('something wrong user is not added !')
+                    // console.log('something wrong user is not added !')
                 }
-                console.log("reuslt line 31 : ", inserted)
+                // console.log("reuslt line 31 : ", inserted)
             })
 
     }
