@@ -1,0 +1,35 @@
+.pageNumbers{
+    list-style: none;
+    display: flex;
+}
+
+.pageNumbers li{
+    padding: 10px;
+    border : 1px solid black;
+    cursor: pointer;
+}
+
+
+.pageNumbers li.active{
+    background-color: tomato;
+    color: aliceblue;
+}
+
+.pageNumbers li button {
+    background-color: transparent;
+    margin: -10px;
+    padding: 10px;
+    border :none;
+    color:black;
+    font: 20px;
+    cursor: pointer;
+}
+
+.pageNumbers li button:hover{
+    background-color: rgb(50, 46, 46);
+    color:white;
+}
+
+.pageNumbers li button:focus{
+    outline: none;
+}

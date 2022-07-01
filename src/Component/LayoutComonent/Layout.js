@@ -4,19 +4,37 @@ import AddBillOnModal from './AddBillOnModal';
 import BillsRow from './BillsRow';
 import DeleteBillOnModal from './DeleteBillOnModal';
 import EditBillOnModal from './EditBillOnModal';
-import {  useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Loading from '../Loading';
+import './layout.css';
 
 let totalPaid;
 
 const Layout = () => {
-    
+
     // const [billingList, setBillingList] = useState([]);
     const [forModalPopUp, setForModalPopUp] = useState(null);
     const [deleteBill, setDeleteBill] = useState(null);
     const [editBillID, setEditBillId] = useState(null);
     const navigate = useNavigate();
 
+    /* pagination */
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setitemPerPage] = useState(2);
+    const pages = [];
+    const indexofLastItem = currentPage * itemsPerPage;
+    const indexofFirstItem = indexofLastItem - itemsPerPage;
+    let currentItems = [];
+
+    /* pagination next and pervius button contorl */
+    const [pageNumberLimit, setPageNumberLimit] = useState(3);
+    const [maxPageNumberLimit, setMaxPageNumberLimit] = useState(3);
+    const [minPageNumberLimit, setMinPageNumberLimit] = useState(0);
+
+
+    const handleClick = (event) => {
+        setCurrentPage(Number(event.target.id));
+    }
 
 
     const { data: billingList, isLoading, refetch } = useQuery('users', () => fetch(`http://localhost:5000/billing_list`, {
@@ -26,23 +44,50 @@ const Layout = () => {
         }
     }).then(res => {
         // console.log("res", res);
-       if (res.status === 401 || res.status === 403) {
-           localStorage.removeItem('accesstoken');
-           navigate('/login');
+        if (res.status === 401 || res.status === 403) {
+            localStorage.removeItem('accesstoken');
+            navigate('/login');
             // console.log("problem found");
-       } else if (res.status)
-           return res.json()
-   }));;
+        } else if (res.status)
+            return res.json()
+    }));;
 
-   if(isLoading){
-    return <Loading></Loading>
-   }
+    if (isLoading) {
+        return <Loading></Loading>
+    }
 
-   if(billingList){
-    console.log(billingList);
-    totalPaid = billingList.map(item => item.paid_amount).reduce((prev, curr) => prev + curr, 0);
-   }
+    if (billingList) {
+        console.log(billingList);
+        totalPaid = billingList.map(item => item.paid_amount).reduce((prev, curr) => prev + curr, 0);
 
+
+        /* pagination */
+        for (let i = 1; i <= Math.ceil(billingList.length / itemsPerPage); i++) {
+            pages.push(i);
+        }
+        currentItems = billingList.slice(indexofFirstItem, indexofLastItem);
+        console.log(indexofFirstItem);
+        console.log(indexofLastItem);
+        console.log('here', billingList);
+        console.log(currentItems);
+
+    }
+    // const currentItems =billingList.slice(indexofFirstItem, indexofFirstItem);
+
+    const renderPageNumbers = [pages?.map(number => {
+        if (number < maxPageNumberLimit + 1 && number > minPageNumberLimit) {
+            return (
+                <li
+                    key={number}
+                    id={number}
+                    onClick={handleClick}
+                    className={currentPage == number ? 'active' : null}
+                >
+                    {number}
+                </li>
+            )
+        }
+    })]
 
 
     return (
@@ -97,8 +142,8 @@ const Layout = () => {
             {/* edit one bill item button click on BillsRow handle and getting with a modal */}
             {
                 editBillID && <EditBillOnModal
-                setEditBill={setEditBillId}
-                editBillID={editBillID}
+                    setEditBill={setEditBillId}
+                    editBillID={editBillID}
                     refetch={refetch}
                 ></EditBillOnModal>
             }
@@ -120,7 +165,7 @@ const Layout = () => {
                     </thead>
                     <tbody>
                         {
-                            billingList?.map((bill, index) => <BillsRow
+                            currentItems?.map((bill, index) => <BillsRow
                                 key={bill._id}
                                 bill={bill}
                                 index={index}
@@ -128,6 +173,22 @@ const Layout = () => {
                                 setEditBillId={setEditBillId}
                             ></BillsRow>)
                         }
+                        {/* pagination page number rendeing */}
+                        <ul className='pageNumbers'>
+                            <li>
+                                {/* <button onClick={handlePrevButton}> */}
+                                <button>
+                                    prev
+                                </button>
+                            </li>
+                            {renderPageNumbers}
+                            <li>
+                                {/* <button onClick={handleNextButton}> */}
+                                <button>
+                                    next
+                                </button>
+                            </li>
+                        </ul>
                     </tbody>
                 </table>
             </div>
