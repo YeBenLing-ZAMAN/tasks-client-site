@@ -3,8 +3,8 @@
 first user need to register in and then need to loging. basically all use are admin role mean everyone can update this list with JWT.
 
 here example for user and password:
-user: admin@admin.com   
-email:123456
+- user: admin@admin.com   
+- email:123456
 
 
 ## Tools
@@ -12,7 +12,7 @@ email:123456
 - React Router 
 - REACT Tailwind
 - REACT dasiyUI 
-- REACT HOOKS FORM
+- REACT HOOKS FORM with every field vaildation
 - custom authencation (self made) 
 - react-query
 ## website live link
