@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useQuery } from 'react-query';
 import AddBillOnModal from './AddBillOnModal';
 import BillsRow from './BillsRow';
 import DeleteBillOnModal from './DeleteBillOnModal';
-import EditBillOnModal from './EditBillOnModal';
-import { useNavigate } from 'react-router-dom';
 import Loading from '../Loading';
 import './layout.css';
 import EditBillingOnModal from './EditBillingOnModal';
@@ -21,7 +18,6 @@ const Layout = () => {
     const [editBillID, setEditBillId] = useState(null);
     const [addmodalPopUpSuccesMessage, setaddmodalPopUpSuccesMessage] = useState(true);
     const [editmodalPopUpSuccesMessage, setEditmodalPopUpSuccesMessage] = useState(true);
-    const navigate = useNavigate();
     const [searchItem, setSearchItem] = useState('');
 
     /* pagination */
@@ -93,12 +89,12 @@ const Layout = () => {
         const filterBill = billingList.filter((val) => {
             if (searchItem === '') {
                 return val;
-            } else if (val.full_name.toLowerCase().includes(searchItem.toLowerCase())) {
+            } else if ((val.full_name.toLowerCase().includes(searchItem.toLowerCase())) || (val.email.toLowerCase().includes(searchItem.toLowerCase())) || (val.phone.toLowerCase().includes(searchItem.toLowerCase()))) {
                 // console.log(val);
                 return val;
             }
         })
-        // console.log(filterBill);
+        console.log(filterBill);
         currentItems = filterBill.slice(indexofFirstItem, indexofLastItem);
 
     }
