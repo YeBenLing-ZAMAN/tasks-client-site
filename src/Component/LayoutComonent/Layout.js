@@ -22,6 +22,7 @@ const Layout = () => {
     const [addmodalPopUpSuccesMessage, setaddmodalPopUpSuccesMessage] = useState(true);
     const [editmodalPopUpSuccesMessage, setEditmodalPopUpSuccesMessage] = useState(true);
     const navigate = useNavigate();
+    const [searchItem, setSearchItem] = useState('');
 
     /* pagination */
     const [currentPage, setCurrentPage] = useState(1);
@@ -45,22 +46,6 @@ const Layout = () => {
         setForModalPopUp(true);
     }
 
-
-
-    // const { data: billingList, isLoading, refetch } = useQuery('users', () => fetch(`https://dry-chamber-27826.herokuapp.com/billing_list`, {
-    //     method: "GET",
-    //     headers: {
-    //         authorization: `Bearer ${localStorage.getItem('accesstoken')}`
-    //     }
-    // }).then(res => {
-    //     // // console.log("res", res);
-    //     if (res.status === 401 || res.status === 403) {
-    //         localStorage.removeItem('accesstoken');
-    //         navigate('/login');
-    //         // // console.log("problem found");
-    //     } else if (res.status)
-    //         return res.json()
-    // }));
 
     useEffect(() => {
         // setIsLoading(true);
@@ -99,7 +84,23 @@ const Layout = () => {
         for (let i = 1; i <= Math.ceil(billingList.length / itemsPerPage); i++) {
             pages.push(i);
         }
-        currentItems = billingList.slice(indexofFirstItem, indexofLastItem);
+        // currentItems = billingList.slice(indexofFirstItem, indexofLastItem);
+
+
+
+
+        /* search function implement */
+        const filterBill = billingList.filter((val) => {
+            if (searchItem === '') {
+                return val;
+            } else if (val.full_name.toLowerCase().includes(searchItem.toLowerCase())) {
+                // console.log(val);
+                return val;
+            }
+        })
+        // console.log(filterBill);
+        currentItems = filterBill.slice(indexofFirstItem, indexofLastItem);
+
     }
 
     /* pagination */
@@ -165,7 +166,7 @@ const Layout = () => {
                     <div className="flex-1">
                         <p className="normal-case text-xl font-bold mr-5">Billngs: </p>
                         <div className="form-control w-full max-w-xs">
-                            <input type="text" placeholder="Search" className="input input-bordered" />
+                            <input type="text" placeholder="Search..." onChange={(event) => setSearchItem(event.target.value)} className="input input-bordered" />
                         </div>
                     </div>
                     <div className="flex-none gap-2">
