@@ -11,7 +11,7 @@ const Signup = () => {
 
     const onSubmit = async data => {
         // console.log(data);
-        fetch(`https://dry-chamber-27826.herokuapp.com/registration`, {
+        fetch(`http://localhost:5000/registration`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json',
@@ -165,7 +165,7 @@ const Signup = () => {
 
                             {/* signInError */}
 
-                            <input className='btn w-full max-w-xs text-white' type="submit" value="signup" />
+                            <input className='btn w-full max-w-xs text-white' type="submit" value="Register" />
                         </form>
                         <p><small>Already Have a account? <Link to='/login' className='text-red-500'>Login</Link></small></p>
                     </div>

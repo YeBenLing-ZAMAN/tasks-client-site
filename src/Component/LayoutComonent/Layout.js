@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import AddBillOnModal from './AddBillOnModal';
 import BillsRow from './BillsRow';
@@ -12,11 +12,13 @@ let totalPaid;
 
 const Layout = () => {
 
-    // const [billingList, setBillingList] = useState([]);
+    const [billingList, setBillingList] = useState([]);
+    const [reLoadchecked, setReLoadChecked] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const [forModalPopUp, setForModalPopUp] = useState(null);
     const [deleteBill, setDeleteBill] = useState(null);
     const [editBillID, setEditBillId] = useState(null);
-    const [addmodalPopUpSuccesMessage, setaddmodalPopUpSuccesMessage] =useState(true);
+    const [addmodalPopUpSuccesMessage, setaddmodalPopUpSuccesMessage] = useState(true);
     const navigate = useNavigate();
 
     /* pagination */
@@ -36,26 +38,42 @@ const Layout = () => {
     const handleClick = (event) => {
         setCurrentPage(Number(event.target.id));
     }
-    const clicksModalPopUpSuccesMessagehandle=()=>{
+    const clicksModalPopUpSuccesMessagehandle = () => {
         setaddmodalPopUpSuccesMessage(true);
         setForModalPopUp(true);
     }
 
 
-    const { data: billingList, isLoading, refetch } = useQuery('users', () => fetch(`https://dry-chamber-27826.herokuapp.com/billing_list`, {
-        method: "GET",
-        headers: {
-            authorization: `Bearer ${localStorage.getItem('accesstoken')}`
-        }
-    }).then(res => {
-        // // console.log("res", res);
-        if (res.status === 401 || res.status === 403) {
-            localStorage.removeItem('accesstoken');
-            navigate('/login');
-            // // console.log("problem found");
-        } else if (res.status)
-            return res.json()
-    }));;
+    // const { data: billingList, isLoading, refetch } = useQuery('users', () => fetch(`http://localhost:5000/billing_list`, {
+    //     method: "GET",
+    //     headers: {
+    //         authorization: `Bearer ${localStorage.getItem('accesstoken')}`
+    //     }
+    // }).then(res => {
+    //     // // console.log("res", res);
+    //     if (res.status === 401 || res.status === 403) {
+    //         localStorage.removeItem('accesstoken');
+    //         navigate('/login');
+    //         // // console.log("problem found");
+    //     } else if (res.status)
+    //         return res.json()
+    // }));
+
+    useEffect(() => {
+        // setIsLoading(true);
+        fetch("http://localhost:5000/billing_list",{
+            method: "GET",
+            headers: {
+                authorization: `Bearer ${localStorage.getItem('accesstoken')}`
+            }
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            setBillingList(data);
+            setReLoadChecked(false);
+            setIsLoading(false);
+          });
+      }, [reLoadchecked]);
 
     if (isLoading) {
         return <Loading></Loading>
@@ -63,11 +81,11 @@ const Layout = () => {
 
     if (billingList) {
         // console.log(billingList);
-            totalPaid = billingList.map(item => item.paid_amount).reduce((prev, curr) => prev + curr, 0); 
+        totalPaid = billingList.map(item => item.paid_amount).reduce((prev, curr) => prev + curr, 0);
 
-        billingList.sort((a,b)=>{
+        billingList.sort((a, b) => {
             // console.log('a', typeof(a.paid_amount));
-            return b.paid_amount  - a.paid_amount;
+            return b.paid_amount - a.paid_amount;
         })
 
         /* pagination */
@@ -77,6 +95,7 @@ const Layout = () => {
         currentItems = billingList.slice(indexofFirstItem, indexofLastItem);
     }
 
+    /* pagination */
     const renderPageNumbers = [pages?.map(number => {
         if (number < maxPageNumberLimit + 1 && number > minPageNumberLimit) {
             return (
@@ -84,12 +103,13 @@ const Layout = () => {
                     key={number}
                     id={number}
                     onClick={handleClick}
-                    className={currentPage == number ? 'active' : null}
+                    className={currentPage === number ? 'active' : null}
                 >
                     {number}
                 </li>
             )
         }
+        return null;
     })]
 
     const handleNextButton = () => {
@@ -152,7 +172,7 @@ const Layout = () => {
                 forModalPopUp && <AddBillOnModal
                     setForModalPopUp={setForModalPopUp}
                     forModalPopUp={forModalPopUp}
-                    refetch={refetch}
+                    setReLoadChecked={setReLoadChecked}
                     addmodalPopUpSuccesMessage={addmodalPopUpSuccesMessage}
                     setaddmodalPopUpSuccesMessage={setaddmodalPopUpSuccesMessage}
                 ></AddBillOnModal>
@@ -163,7 +183,7 @@ const Layout = () => {
                 deleteBill && <DeleteBillOnModal
                     setDeleteBill={setDeleteBill}
                     deleteBill={deleteBill}
-                    refetch={refetch}
+                    setReLoadChecked={setReLoadChecked}
                 ></DeleteBillOnModal>
             }
 
@@ -172,7 +192,7 @@ const Layout = () => {
                 editBillID && <EditBillOnModal
                     setEditBill={setEditBillId}
                     editBillID={editBillID}
-                    refetch={refetch}
+                    setReLoadChecked={setReLoadChecked}
                 ></EditBillOnModal>
             }
 

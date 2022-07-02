@@ -1,12 +1,12 @@
 import React from 'react';
 
-const DeleteBillOnModal = ({deleteBill, setDeleteBill, refetch}) => {
+const DeleteBillOnModal = ({deleteBill, setDeleteBill, refetch,setReLoadChecked}) => {
     // console.log(deleteBill);
     const {email,full_name,paid_amount,phone,_id}= deleteBill;
     const handleDelete = (_id) => {
         // // console.log('i clicked');
         // console.log(_id);
-        fetch(`https://dry-chamber-27826.herokuapp.com/delete_billing/${_id}`, {
+        fetch(`http://localhost:5000/delete_billing/${_id}`, {
             method: 'DELETE',
             headers: {
                 authorization: `Bearer ${localStorage.getItem('accesstoken')}`
@@ -17,7 +17,8 @@ const DeleteBillOnModal = ({deleteBill, setDeleteBill, refetch}) => {
                 //  // console.log(data);
                 if (data.deletedCount) {
                     // console.log(`bill items is deleted`);
-                    refetch();
+                    // refetch();
+                    setReLoadChecked(true);
                 }
             })
 

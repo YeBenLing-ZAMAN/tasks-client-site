@@ -17,7 +17,7 @@ const Login = () => {
     const onSubmit = async data => {
         // console.log(data);
         const email = data.email;
-        fetch(`https://dry-chamber-27826.herokuapp.com/login/${email}`, {
+        fetch(`http://localhost:5000/login/${email}`, {
             method: 'GET',
             headers: {
                 'content-type': 'application/json',
