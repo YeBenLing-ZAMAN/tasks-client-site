@@ -44,7 +44,7 @@ const Layout = () => {
 
 
     useEffect(() => {
-        // setIsLoading(true);
+        setIsLoading(true);
         const loadData = async () => {
             await fetch("https://dry-chamber-27826.herokuapp.com/billing_list", {
                 method: "GET",
@@ -89,12 +89,12 @@ const Layout = () => {
         const filterBill = billingList.filter((val) => {
             if (searchItem === '') {
                 return val;
-            } else if ((val.full_name.toLowerCase().includes(searchItem.toLowerCase())) || (val.email.toLowerCase().includes(searchItem.toLowerCase())) || (val.phone.toLowerCase().includes(searchItem.toLowerCase()))) {
+            } else if ((val.full_name.toLowerCase().includes(searchItem.toLowerCase())) || (val.email.toLowerCase().includes(searchItem.toLowerCase())) || (val.phone.toLowerCase().includes(searchItem.toLowerCase()))|| (val.paid_amount.toString().toLowerCase().includes(searchItem.toLowerCase()))) {
                 // console.log(val);
                 return val;
             }
         })
-        console.log(filterBill);
+        // console.log(filterBill);
         currentItems = filterBill.slice(indexofFirstItem, indexofLastItem);
 
     }
@@ -160,9 +160,9 @@ const Layout = () => {
             <div className='mt-10'>
                 <div className="navbar bg-base-300 max-w-7xl mx-auto">
                     <div className="flex-1">
-                        <p className="normal-case text-xl font-bold mr-5">Billngs: </p>
+                        <p className="text-primary text-xl font-bold mr-5 uppercase">Bill Search: </p>
                         <div className="form-control w-full max-w-xs">
-                            <input type="text" placeholder="Search..." onChange={(event) => setSearchItem(event.target.value)} className="input input-bordered" />
+                            <input type="text" placeholder="Search . . ." onChange={(event) => setSearchItem(event.target.value)} className="input input-bordered" />
                         </div>
                     </div>
                     <div className="flex-none gap-2">
