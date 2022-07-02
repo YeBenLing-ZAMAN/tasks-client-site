@@ -16,7 +16,7 @@ const AddBillOnModal = ({ setForModalPopUp, forModalPopUp, refetch, setaddmodalP
             paid_amount: parseFloat(data.amount),
             phone: data.phone
         }
-        await fetch(`http://localhost:5000/add_billing`, {
+        await fetch(`https://dry-chamber-27826.herokuapp.com/add_billing`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json',

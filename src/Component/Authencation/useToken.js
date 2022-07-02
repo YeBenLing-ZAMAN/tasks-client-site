@@ -11,7 +11,7 @@ const useToken = user => {
         // console.log(currentUser);
         if (email) {
              // // console.log('user jeta pachi', user);
-            fetch(`http://localhost:5000/user/${email}`,{
+            fetch(`https://dry-chamber-27826.herokuapp.com/user/${email}`,{
                 method:"PUT",
                 headers:{
                     'content-type':'application/json'
