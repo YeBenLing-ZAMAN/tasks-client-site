@@ -3,7 +3,7 @@ import { useForm, Controller } from "react-hook-form";
 import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import "react-phone-number-input/style.css";
 
-const AddBillOnModal = ({ setForModalPopUp, forModalPopUp, refetch, setaddmodalPopUpSuccesMessage, addmodalPopUpSuccesMessage,setReLoadChecked }) => {
+const AddBillOnModal = ({ setForModalPopUp, forModalPopUp, refetch, setaddmodalPopUpSuccesMessage, addmodalPopUpSuccesMessage, setReLoadChecked }) => {
 
     const { register, formState: { errors }, handleSubmit, control, reset } = useForm();
     const [addtoggle, setToggle] = useState(true);
@@ -16,7 +16,7 @@ const AddBillOnModal = ({ setForModalPopUp, forModalPopUp, refetch, setaddmodalP
             paid_amount: parseFloat(data.amount),
             phone: data.phone
         }
-        fetch(`http://localhost:5000/add_billing`, {
+        await fetch(`http://localhost:5000/add_billing`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json',
@@ -179,7 +179,7 @@ const AddBillOnModal = ({ setForModalPopUp, forModalPopUp, refetch, setaddmodalP
                                     <input className='btn w-full max-w-xs text-white mt-10' type="submit" value="add" />
                                 </form>
                             </div>
-                        </div> : <h1 className='text-xl text-red-500'>successfully Edit</h1>
+                        </div> : <h1 className='text-xl text-red-500'>successfully Add</h1>
 
                     }
 

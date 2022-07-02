@@ -7,6 +7,7 @@ import EditBillOnModal from './EditBillOnModal';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../Loading';
 import './layout.css';
+import EditBillingOnModal from './EditBillingOnModal';
 
 let totalPaid;
 
@@ -19,6 +20,7 @@ const Layout = () => {
     const [deleteBill, setDeleteBill] = useState(null);
     const [editBillID, setEditBillId] = useState(null);
     const [addmodalPopUpSuccesMessage, setaddmodalPopUpSuccesMessage] = useState(true);
+    const [editmodalPopUpSuccesMessage, setEditmodalPopUpSuccesMessage] = useState(true);
     const navigate = useNavigate();
 
     /* pagination */
@@ -44,6 +46,7 @@ const Layout = () => {
     }
 
 
+
     // const { data: billingList, isLoading, refetch } = useQuery('users', () => fetch(`http://localhost:5000/billing_list`, {
     //     method: "GET",
     //     headers: {
@@ -61,19 +64,23 @@ const Layout = () => {
 
     useEffect(() => {
         // setIsLoading(true);
-        fetch("http://localhost:5000/billing_list",{
-            method: "GET",
-            headers: {
-                authorization: `Bearer ${localStorage.getItem('accesstoken')}`
-            }
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            setBillingList(data);
-            setReLoadChecked(false);
-            setIsLoading(false);
-          });
-      }, [reLoadchecked]);
+        const loadData = async () => {
+            await fetch("http://localhost:5000/billing_list", {
+                method: "GET",
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem('accesstoken')}`
+                }
+            })
+                .then((res) => res.json())
+                .then((data) => {
+                    console.log(data);
+                    setBillingList(data);
+                    setReLoadChecked(false);
+                    setIsLoading(false);
+                });
+        }
+        loadData();
+    }, [reLoadchecked]);
 
     if (isLoading) {
         return <Loading></Loading>
@@ -81,7 +88,7 @@ const Layout = () => {
 
     if (billingList) {
         // console.log(billingList);
-        totalPaid = billingList.map(item => item.paid_amount).reduce((prev, curr) => prev + curr, 0);
+        totalPaid = billingList?.map(item => item.paid_amount).reduce((prev, curr) => prev + curr, 0);
 
         billingList.sort((a, b) => {
             // console.log('a', typeof(a.paid_amount));
@@ -189,11 +196,13 @@ const Layout = () => {
 
             {/* edit one bill item button click on BillsRow handle and getting with a modal */}
             {
-                editBillID && <EditBillOnModal
+                editBillID && <EditBillingOnModal
                     setEditBill={setEditBillId}
                     editBillID={editBillID}
                     setReLoadChecked={setReLoadChecked}
-                ></EditBillOnModal>
+                    setEditmodalPopUpSuccesMessage={setEditmodalPopUpSuccesMessage}
+                    editmodalPopUpSuccesMessage={editmodalPopUpSuccesMessage}
+                ></EditBillingOnModal>
             }
 
             {/* all bill information stored and showing on list */}
@@ -219,6 +228,7 @@ const Layout = () => {
                                 index={index}
                                 setDeleteBill={setDeleteBill}
                                 setEditBillId={setEditBillId}
+                                setEditmodalPopUpSuccesMessage={setEditmodalPopUpSuccesMessage}
                             ></BillsRow>)
                         }
 

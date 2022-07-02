@@ -1,8 +1,12 @@
 import React from 'react';
 
-const BillsRow = ({index,bill,setDeleteBill,setEditBillId}) => {
+const BillsRow = ({index,bill,setDeleteBill,setEditBillId,setEditmodalPopUpSuccesMessage}) => {
     const {phone,paid_amount,email,full_name,_id}= bill; 
-    // // console.log(bill);   
+    // // console.log(bill); 
+    const handleEditbutton = (_id)=>{
+        setEditBillId(_id);
+        setEditmodalPopUpSuccesMessage(true);
+    }  
     return (
         <tr>
         <th>{_id}</th>
@@ -11,7 +15,7 @@ const BillsRow = ({index,bill,setDeleteBill,setEditBillId}) => {
         <td>{phone}</td>
         <td>${paid_amount}</td>
         <td>
-            <label htmlFor="bill-edit-model-popup" onClick={() =>setEditBillId(_id)} className='btn btn-xs btn-info mr-2'>edit</label>
+            <label htmlFor="bill-edit-model-popup" onClick={() =>handleEditbutton(_id)} className='btn btn-xs btn-info mr-2'>edit</label>
             <label htmlFor="bill-delete-model-popup" onClick={() =>setDeleteBill(bill)} className='btn btn-xs btn-warning'>delete</label>
         </td>
     </tr>
