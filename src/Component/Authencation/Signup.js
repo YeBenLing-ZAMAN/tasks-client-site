@@ -11,7 +11,7 @@ const Signup = () => {
 
     const onSubmit = async data => {
         // console.log(data);
-        fetch(`https://dry-chamber-27826.herokuapp.com/registration`, {
+        fetch(`http://localhost:5000/registration`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json',

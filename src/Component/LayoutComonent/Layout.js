@@ -46,7 +46,7 @@ const Layout = () => {
     useEffect(() => {
         setIsLoading(true);
         const loadData = async () => {
-            await fetch("https://dry-chamber-27826.herokuapp.com/billing_list", {
+            await fetch("http://localhost:5000/billing_list", {
                 method: "GET",
                 headers: {
                     authorization: `Bearer ${localStorage.getItem('accesstoken')}`
@@ -71,6 +71,9 @@ const Layout = () => {
         // console.log(billingList);
         totalPaid = billingList?.map(item => item.paid_amount).reduce((prev, curr) => prev + curr, 0);
 
+        /* to maintain the order */
+        /* 
+        */
         billingList.sort((a, b) => {
             // console.log('a', typeof(a.paid_amount));
             return b.paid_amount - a.paid_amount;
@@ -89,7 +92,7 @@ const Layout = () => {
         const filterBill = billingList.filter((val) => {
             if (searchItem === '') {
                 return val;
-            } else if ((val.full_name.toLowerCase().includes(searchItem.toLowerCase())) || (val.email.toLowerCase().includes(searchItem.toLowerCase())) || (val.phone.toLowerCase().includes(searchItem.toLowerCase()))|| (val.paid_amount.toString().toLowerCase().includes(searchItem.toLowerCase()))) {
+            } else if ((val.full_name.toLowerCase().includes(searchItem.toLowerCase())) || (val.email.toLowerCase().includes(searchItem.toLowerCase())) || (val.phone.toLowerCase().includes(searchItem.toLowerCase())) || (val.paid_amount.toString().toLowerCase().includes(searchItem.toLowerCase()))) {
                 // console.log(val);
                 return val;
             }

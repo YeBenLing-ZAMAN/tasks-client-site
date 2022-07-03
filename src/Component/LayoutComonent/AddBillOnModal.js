@@ -3,7 +3,7 @@ import { useForm, Controller } from "react-hook-form";
 import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input';
 import "react-phone-number-input/style.css";
 
-const AddBillOnModal = ({ setForModalPopUp, forModalPopUp, refetch, setaddmodalPopUpSuccesMessage, addmodalPopUpSuccesMessage, setReLoadChecked }) => {
+const AddBillOnModal = ({  forModalPopUp, setaddmodalPopUpSuccesMessage, addmodalPopUpSuccesMessage, setReLoadChecked }) => {
 
     const { register, formState: { errors }, handleSubmit, control, reset } = useForm();
     const [addtoggle, setToggle] = useState(true);
@@ -14,9 +14,10 @@ const AddBillOnModal = ({ setForModalPopUp, forModalPopUp, refetch, setaddmodalP
             full_name: data.name,
             email: data.email,
             paid_amount: parseFloat(data.amount),
-            phone: data.phone
+            phone: data.phone,
+            // status: (billingList[billinLength].status +1)
         }
-        await fetch(`https://dry-chamber-27826.herokuapp.com/add_billing`, {
+        await fetch(`http://localhost:5000/add_billing`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json',

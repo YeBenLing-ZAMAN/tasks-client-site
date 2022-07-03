@@ -12,7 +12,12 @@ const EditBillingOnModal = ({ editBillID, setReLoadChecked ,editmodalPopUpSucces
     useEffect(() => {
         setIsLoading(true);
         const loadData = async () => {
-            await fetch(`https://dry-chamber-27826.herokuapp.com/billing_list/${id}`)
+            await fetch(`http://localhost:5000/billing_list/${id}`,{
+                method: "GET",
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem('accesstoken')}`
+                } 
+            })
                 .then(res => res.json())
                 .then(data => {
                     setBill(data);
@@ -49,7 +54,7 @@ const EditBillingOnModal = ({ editBillID, setReLoadChecked ,editmodalPopUpSucces
     const onSubmit = async (event) => {
         console.log(bill);
 
-        await fetch(`https://dry-chamber-27826.herokuapp.com/update_billing/${_id}`, {
+        await fetch(`http://localhost:5000/update_billing/${_id}`, {
             method: 'PATCH',
             headers: {
                 'content-type': 'application/json',
