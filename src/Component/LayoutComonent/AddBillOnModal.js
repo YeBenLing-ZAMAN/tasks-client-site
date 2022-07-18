@@ -58,7 +58,7 @@ const AddBillOnModal = ({  forModalPopUp, setaddmodalPopUpSuccesMessage, addmoda
                     {/*Billing infomation form section*/}
 
                     {
-                        addmodalPopUpSuccesMessage ? <div className="card w-96 bg-base-100 p-5 mx-auto">
+                        addmodalPopUpSuccesMessage ? <div className="card w-96 bg-base-100 p-1 mx-auto">
                             <div className="card-body">
 
                                 <form onSubmit={handleSubmit(onSubmit)}>

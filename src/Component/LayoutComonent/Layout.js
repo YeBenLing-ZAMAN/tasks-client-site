@@ -160,7 +160,7 @@ const Layout = () => {
 
             {/* bill added nad search section top of the table */}
 
-            <div className='mt-10'>
+            <div className='mt-5'>
                 <div className="navbar bg-base-300 max-w-7xl mx-auto">
                     <div className="flex-1">
                         <p className="text-primary text-xl font-bold mr-5 uppercase">Bill Search: </p>
